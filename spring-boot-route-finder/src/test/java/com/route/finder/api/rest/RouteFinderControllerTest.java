@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.route.finder.Application;
+import com.route.finder.vo.YesOrNo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -40,7 +41,17 @@ public class RouteFinderControllerTest {
         mvc.perform(get("/connected?origin=Boston&destination=Newark")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("yes"));    	
+                .andExpect(content().string(YesOrNo.YES.getValue()));    	
+
+        mvc.perform(get("/connected?origin=Philadelphia&destination= Newark")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(YesOrNo.YES.getValue()));
+        
+        mvc.perform(get("/connected?origin=Newark&destination= Philadelphia ")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(YesOrNo.YES.getValue()));
     }
 
     @Test
@@ -48,23 +59,23 @@ public class RouteFinderControllerTest {
         mvc.perform(get("/connected?origin=Boston&destination=dummycity")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("no"));
+                .andExpect(content().string(YesOrNo.NO.getValue()));
         
         mvc.perform(get("/connected?origin=&destination=")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("no"));    
+                .andExpect(content().string(YesOrNo.NO.getValue()));    
     }
 
     @Test
     public void testConnected_failure_bad_request_invalid_params() throws Exception{
         mvc.perform(get("/connected?origin=Boston")
                 .accept(MediaType.APPLICATION_JSON))
-        		.andExpect(content().string("no"));
+        		.andExpect(content().string(YesOrNo.NO.getValue()));
         
         mvc.perform(get("/connected?destination=Boston")
                 .accept(MediaType.APPLICATION_JSON))
-        		.andExpect(content().string("no"));
+        		.andExpect(content().string(YesOrNo.NO.getValue()));
 
     }
 
@@ -73,7 +84,7 @@ public class RouteFinderControllerTest {
     	
         mvc.perform(post("/connected?destination=Boston")
                 .accept(MediaType.APPLICATION_JSON))
-        		.andExpect(content().string("no"));
+        		.andExpect(content().string(YesOrNo.NO.getValue()));
 
     }
     

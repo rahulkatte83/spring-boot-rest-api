@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.route.finder.dao.CityGraphRepository;
+import com.route.finder.vo.YesOrNo;
 
 public class RouteFinderServiceImplTest {
 
@@ -47,29 +48,29 @@ public class RouteFinderServiceImplTest {
     public void testIsConnected_success() {
     	Mockito.when(cityGraphRepositoryImpl.getCityGraph()).thenReturn(cityGraph);
     	String status = routeFinderServiceImpl.getConnectedStatus("New York", "Boston");
-    	Assert.assertEquals("yes", status);
+    	Assert.assertEquals(YesOrNo.YES.getValue(), status);
     	
     	status = routeFinderServiceImpl.getConnectedStatus("Newark", "Philadelphia");
-    	Assert.assertEquals("yes", status);
+    	Assert.assertEquals(YesOrNo.YES.getValue(), status);
     	
     	status = routeFinderServiceImpl.getConnectedStatus("Newark", "Boston");
-    	Assert.assertEquals("yes", status);
+    	Assert.assertEquals(YesOrNo.YES.getValue(), status);
     	
     	status = routeFinderServiceImpl.getConnectedStatus("Boston", "Philadelphia");
-    	Assert.assertEquals("yes", status);
+    	Assert.assertEquals(YesOrNo.YES.getValue(), status);
 
     }
     
     @Test
     public void testIsConnected_failure() {
-    	String status = routeFinderServiceImpl.getConnectedStatus("test", "Boston");
-    	Assert.assertEquals("no", status);
+    	String isConnected = routeFinderServiceImpl.getConnectedStatus("test", "Boston");
+    	Assert.assertEquals(YesOrNo.NO.getValue(), isConnected);
     	
-    	status = routeFinderServiceImpl.getConnectedStatus(null, null);
-    	Assert.assertEquals("no", status);
+    	isConnected = routeFinderServiceImpl.getConnectedStatus(null, null);
+    	Assert.assertEquals(YesOrNo.NO.getValue(), isConnected);
     	
-    	status = routeFinderServiceImpl.getConnectedStatus("Philadelphia", "Albany");
-    	Assert.assertEquals("no", status);
+    	isConnected = routeFinderServiceImpl.getConnectedStatus("Philadelphia", "Albany");
+    	Assert.assertEquals(YesOrNo.NO.getValue(), isConnected);
     }
     
 	private void populateRoute(String origin, String destination) {

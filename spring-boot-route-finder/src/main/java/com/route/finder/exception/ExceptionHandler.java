@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.route.finder.vo.YesOrNo;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
@@ -19,23 +21,23 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return buildResponseEntity("no");
+		return buildResponseEntity(YesOrNo.NO.getValue());
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return buildResponseEntity("no");
+		return buildResponseEntity(YesOrNo.NO.getValue());
 	}
 	
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return buildResponseEntity("no");
+		return buildResponseEntity(YesOrNo.NO.getValue());
 	}
 
 	private ResponseEntity<Object> buildResponseEntity(String error) {
-		return new ResponseEntity<>("no", HttpStatus.OK);
+		return new ResponseEntity<>(YesOrNo.NO.getValue(), HttpStatus.OK);
 	}
 
 }

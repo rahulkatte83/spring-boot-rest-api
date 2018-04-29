@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.route.finder.dao.CityGraphRepository;
+import com.route.finder.vo.YesOrNo;
 
 @Service
 public class RouteFinderServiceImpl implements RouteFinderService {
@@ -17,25 +18,6 @@ public class RouteFinderServiceImpl implements RouteFinderService {
 	
 	@Autowired
 	private CityGraphRepository routeFinderRepositoryImpl;
-	
-	
-	public enum YesOrNo {
-		
-		YES("yes"),
-		
-		NO("no");
-		
-		private String yesOrNo;
-		
-		private YesOrNo(String yesOrNo) {
-			this.yesOrNo = yesOrNo;
-		}
-		
-		private String getValue() {
-			return this.yesOrNo;
-		}
-		
-	}
 	
 	@Override
 	public String getConnectedStatus(final String origin, final String destination) {
